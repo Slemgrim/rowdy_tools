@@ -24,7 +24,8 @@ bl_info = {
     "location": "View3D > Sidebar > Rowdy Tools",
     "description": "Personal tools for project management",
     "category": "User Interface",
-    "support": "COMMUNITY"
+    "support": "COMMUNITY",
+    "doc_url": "https://github.com/Slemgrim/rowdy_tools"
 }
 
 import bpy
@@ -33,6 +34,7 @@ import re
 from pathlib import Path
 from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty, IntProperty
+
 
 class VIEW3D_PT_rowdy_assets(bpy.types.Panel):
     bl_space_type = "VIEW_3D"
@@ -72,19 +74,19 @@ class VIEW3D_OT_rowdy_backup(bpy.types.Operator):
         for (dirpath, dirnames, filenames) in os.walk(path):
             files = [os.path.splitext(filename)[0] for filename in filenames]
 
-        highest_version = 0;
+        highest_version = 0
         for file in files:
             file = os.path.splitext(file)[0]
-            found = re.findall("^" + filename + addon_prefs.backup_postfix + "(\d+)", file)
-            if (len(found) == 1):
+            found = re.findall('^' + filename + addon_prefs.backup_postfix + '(\d+)', file)
+            if len(found) == 1:
                 v = int(found[0])
-                if (v > highest_version):
+                if v > highest_version:
                     highest_version = v
 
         new_version = filename + addon_prefs.backup_postfix + str(highest_version + 1) + ".blend"
         new_path = bpy.path.abspath("//") + new_version
         bpy.ops.wm.save_as_mainfile(filepath=new_path, copy=True)
-        self.report({'INFO'}, "Backup saved: %s" % (new_version))
+        self.report({'INFO'}, "Backup saved: %s" % new_version)
         return {"FINISHED"}
 
     # -------------------  Promote FUNCTIONS -------------------------
@@ -169,7 +171,7 @@ class VIEW3D_OT_rowdy_promote(bpy.types.Operator):
 
     # check if all linked libraries exist in production folder   
     def check_linked_libraries(self, prod_path):
-        broken_links = [];
+        broken_links = []
         for link in bpy.data.libraries:
             linked_file = (bpy.path.basename(link.filepath))
             new_link = os.path.join(prod_path, linked_file)
@@ -180,7 +182,7 @@ class VIEW3D_OT_rowdy_promote(bpy.types.Operator):
 
     # updates all linked libraries to their corresponding production equivalent   
     def update_linked_libraries(self, prod_path):
-        original_links = {};
+        original_links = {}
         for link in bpy.data.libraries:
             linked_file = (bpy.path.basename(link.filepath))
             new_link = os.path.join(prod_path, linked_file)
@@ -197,7 +199,7 @@ class RowdyToolsPreferences(bpy.types.AddonPreferences):
 
     prod_folder_name = StringProperty(
         name="Production folder name",
-        default='production',
+        default='assets',
     )
 
     edit_folder_name = StringProperty(
@@ -248,6 +250,7 @@ def unregister():
 
     # Preferences
     bpy.utils.unregister_class(RowdyToolsPreferences)
+
 
 if __name__ == '__main__':
     register()
