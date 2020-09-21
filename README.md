@@ -2,6 +2,9 @@
 
 Rowdy Tools are my little helpers to manage assets in my blender pipeline
 
+## Installation
+Install it like every other blender addon
+
 ## Features
 
 ### Backup
@@ -32,3 +35,4 @@ If the asset has linked libraries, the production folder must contain the same a
 * **Edit folder name**: the name of the folder where the unfinished assets are stored
 * **Search Depth**: number of directories to go up when searching for edit- and asset-directory
 * **Backup postfix**: the postfix which get's prepended to a backed up file
+
