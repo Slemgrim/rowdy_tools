@@ -197,22 +197,22 @@ class VIEW3D_OT_rowdy_promote(bpy.types.Operator):
 class RowdyToolsPreferences(bpy.types.AddonPreferences):
     bl_idname = __name__
 
-    prod_folder_name = StringProperty(
+    prod_folder_name: StringProperty(
         name="Production folder name",
         default='assets',
     )
 
-    edit_folder_name = StringProperty(
+    edit_folder_name: StringProperty(
         name="Edit folder name",
         default='edit',
     )
 
-    search_depth = IntProperty(
+    search_depth: IntProperty(
         name="Search Depth",
         default=3,
     )
 
-    backup_postfix = StringProperty(
+    backup_postfix: StringProperty(
         name="Backup postfix",
         default='_b',
     )
